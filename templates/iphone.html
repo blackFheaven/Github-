@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="statics/css/udy_css/mui.min.css">
+    <link rel="stylesheet" href="statics/css/udy_css/change_info.css">
+    <title>修改资料</title>
+    <!--[if lte IE 8]>
+        <script type="text/javascript">alert("您的浏览器版本较低，请升级版本以获得更好的体验！");</script>
+    <![endif]-->
+    <style>
+        body{line-height: 0;}img{border: none;}
+        .mui-input-group .mui-input-row.bd0:after{height: 0;}
+        .mui-input-group .mui-input-row.bd0{border-bottom: #c8c7cc 1px solid;}
+        .mui-card{position: relative;border:#c8c7cc 1px dotted;padding: 8px;-webkit-box-shadow:none;box-shadow: none;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;margin-bottom: 30px;}
+        /*图片背景*/
+        .mui-card-header:after{height: 0;}
+        .camerabox{width: 100%;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+        .beforecamera{padding: 0;margin:0;margin-top: 20px;border:none;}
+        .beforecamera .mui-card-header{width:100%;text-align: center;}
+        .beforecamera .mui-card-header>div{width: 100%;height:100%;font-weight: normal;color: #09f;}
+        /*提交按钮*/
+        .mui-btn{height: 50px;box-sizing: border-box;line-height: 50px;padding: 0;font-size: 16px;}
+        /*图形按钮*/
+        .fileInpBtn{
+            position:absolute;left:2;top: 0;
+            width:100%;height:100%;
+            cursor:pointer;
+            filter:alpha(opacity:0);opacity:0;
+            border-color: orange;
+        }
+        /*.camerabox{
+            position:absolute;left:2;top: 0;
+            border-color: red;
+        }*/
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:history.go(-1);"></a>
+        <h1 class="mui-title">修改资料</h1>
+    </header>
+    <div class="mui-content">
+        <form class="mui-input-group" action="" method="post" name="">
+
+            <div class="mui-input-row">
+                <label>姓名</label>
+                <input type="text" class="mui-input-clear" placeholder="仅限中文">
+            </div>
+            <div class="mui-input-row">
+                <label>手机号码</label>
+                <input type="text" class="mui-input-clear" placeholder="输入11位手机号码">
+            </div>
+            <div class="mui-input-row bd0">
+                <label>身份证号码</label>
+                <input type="text" class="mui-input-clear" placeholder="输入15或18位身份证号码">
+            </div>
+
+
+            <div class="mui-card beforecamera">
+                <div class="mui-card-header">
+                    <div>请拍摄证件实体，并录入信息</div>
+                </div>
+            </div>
+            <!--身份证主页-->
+            <div class="mui-card">
+                <div class="mui-card-content">
+                    <img class="camerabox" id="newImage" src="statics/images/udy_images/idcard_home.png" />
+                    <input class="fileInpBtn" id="fileInpBtn" type="file"  onchange="showPicture(this)" accept="image/*"  multiple>
+                </div>
+            </div>
+            <!--身份证副页-->
+            <div class="mui-card">
+                <div class="mui-card-content">
+                    <img class="camerabox" id="newImage2" src="statics/images/udy_images/idcard_vice.png" />
+                    <input class="fileInpBtn" id="fileInpBtn2" type="file"  onchange="showPicture2(this)" accept="image/*"  multiple>
+                </div>
+            </div>
+            <!--毕业证主页-->
+            <div class="mui-card">
+                <div class="mui-card-content">
+                    <img class="camerabox" id="newImage3" src="statics/images/udy_images/gradution_home.png" />
+                    <input class="fileInpBtn" id="fileInpBtn3" type="file"  onchange="showPicture3(this)" accept="image/*"  multiple>
+                </div>
+            </div>
+            <!--其他证件-->
+            <div class="mui-card">
+                <div class="mui-card-content">
+                    <img class="camerabox" id="newImage4" src="statics/images/udy_images/othercard_home.png" />
+                    <input class="fileInpBtn" id="fileInpBtn4" type="file"  onchange="showPicture4(this)" accept="image/*"  multiple>
+                </div>
+            </div>
+
+
+            <div class="mui-button-row" style="height: auto;padding: 20px;">
+                <!--提交按钮-->
+                <button type="submit" class="mui-btn mui-btn-block mui-btn-primary" onclick="return true;">确认无误，立即修改</button>&nbsp;&nbsp;
+                <button type="button" class="mui-btn mui-btn-block mui-btn-danger" onclick="javascript:history.go(-1);">取消</button>
+
+            </div>
+        </form>
+    </div>
+
+
+    <script src="statics/js/udy_js/mui.min.js"></script>
+    <script>
+        function showPicture(imgFile){
+            alert("url地址："+window.URL.createObjectURL(imgFile.files[0]));
+            /*获取上传文件的路径，并赋给img标签*/
+            document.getElementById("newImage").src = window.URL.createObjectURL(imgFile.files[0]);
+        }
+
+        function showPicture2(imgFile2){
+            alert("url地址2："+window.URL.createObjectURL(imgFile2.files[0]));
+            /*获取上传文件的路径，并赋给img标签*/
+            document.getElementById("newImage2").src = window.URL.createObjectURL(imgFile2.files[0]);
+        }
+
+        function showPicture3(imgFile3){
+            alert("url地址3："+window.URL.createObjectURL(imgFile3.files[0]));
+            /*获取上传文件的路径，并赋给img标签*/
+            document.getElementById("newImage3").src = window.URL.createObjectURL(imgFile3.files[0]);
+        }
+
+        function showPicture4(imgFile4){
+            alert("url地址4："+window.URL.createObjectURL(imgFile4.files[0]));
+            /*获取上传文件的路径，并赋给img标签*/
+            document.getElementById("newImage4").src = window.URL.createObjectURL(imgFile4.files[0]);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+         <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta http-equiv="Access-Control-Allow-Origin" content="*">
+        <link href="../static/css/login.css" type="text/css" rel="stylesheet">
+        <link href="../static/css/global.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../static/css/login_style.css" />
+        <link rel="stylesheet" href="../static/css/buttons.css">
+
+
+    </head>
+    <body class="fcl_bg">
+        <div class="container">
+            <div class="login page page0">
+            <div class="login-title"><p>登录</p>
+                <i></i>
+            </div>
+            <div method="post" action="#">
+            <div class="login-bar">
+                <ul>
+                    <li><img src="../static/images/login_user.png"><input type="text" class="text" placeholder="请输入用户名" id="input_1"/></li>
+                    <li><img src="../static/images/login_pwd.png"><input type="password" class="psd" placeholder="请输入确认密码" id="input_2" /></li>
+                </ul>
+            </div>
+            <div class="login-btn">
+                <button class="submit" type="button" id="login">登陆</button>
+                <a href="/register"><div class="login-reg"><p>莫有账号，先注册</p></div></a>
+            </div>
+            </div>
+            </div>
+            <div class="page page1">
+                <div>
+                    <h1>人脸识别快速登录</h1>
+                </div>
+                <div>
+                    <span>
+                        温馨提示：<br>
+                        点击图标，快速登录
+                    </span>
+                </div>
+                <form  name="fcl_form" id="fcl_form" style="width: 100%;height: 50%">
+                    <input  class="fileInpBtn" name="file" id="login_imgInp" type="file"   accept="image/*"  multiple >
+                        <img class="camerabox" id="login_blah" name="img" src="../static/image/人脸识别提示.png" />
+
+                </form>
+
+                <div class="mui-button-row" style="height: auto;padding: 20px;">
+                <!--提交按钮-->
+
+                     <a href="#" class="button button-3d button-caution button-pill" onclick="login_upload_img()"> 立即登录</a>
+                    <a href="#" class="button button-3d button-action " id="login_remake" >重拍</a>
+            </div>
+            </div>
+        </div>
+
+        <script src="../static/js/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="../static/js/login.js"></script>
+        <script type="text/javascript" src="../static/js/jquery.touchSwipe.min.js"></script>
+        <script src="../static/js/jquery.mloading.js"></script>
+        <script type="text/javascript">
+
+    $(document).ready(
+
+        function() {
+
+            var nowpage = 0;
+
+            //给最大的盒子增加事件监听
+
+            $(".container").swipe(
+
+                {
+
+                    swipe:function(event, direction, distance, duration, fingerCount) {
+
+                         if(direction == "up"){
+
+                            nowpage = nowpage + 1;
+
+                         }else if(direction == "down"){
+
+                            nowpage = nowpage - 1;
+
+                         }
+
+
+
+                         if(nowpage > 1){
+
+                            nowpage = 1;
+
+                         }
+
+
+
+                         if(nowpage < 0){
+
+                            nowpage = 0;
+
+                         }
+
+
+
+                        $(".container").animate({"top":nowpage * -100 + "%"},400);
+
+
+
+                        $(".page").eq(nowpage).addClass("cur").siblings().removeClass("cur");
+
+                    }
+
+                }
+
+            );
+
+
+        }
+
+    );
+
+</script>
+        <script>
+            $('#login').click(function () {
+                var input_user=$('#input_1').val();
+                var input_pwd = $('#input_2').val();
+                $.ajax({
+                    url:'/loginfo',
+                    type:'POST',
+                    data:{
+                        'user':input_user,
+                        'password':input_pwd
+                    },
+                    dataType:'json',
+                    success:function(data){
+                        if (data['success']==true){
+                            alert('登陆成功')
+                            window.location.href='/iphone2'
+                        } else {
+                             alert('用户名或密码有误！请重新输入')
+                        }
+                    },error: function (jqXHR) {
+                    console.log('error2:', jqXHR)
+                }
+                })
+            })
+        </script>
+        <script>
+            function readURL(input) {
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
+       reader.onload = function (e) {
+    console.log('e: ',e)
+      console.log('target: ',e.target)
+                 $('#login_blah').attr('src', e.target.result);
+       }
+       reader.readAsDataURL(input.files[0]);
+
+   }
+}
+$("#login_imgInp").change(function(){
+   readURL(this);
+});
+
+            function login_upload_img() {
+    var login_formData = new FormData($('#fcl_form')[0]);
+   login_formData.append('photo', 'dasd');
+    //console.log('asdsadsa',);
+    //console.log('foemdata: ',formData)
+//ajax请求
+$.ajax({url:"/login_face",
+            type: "POST",
+            data: login_formData,
+            dataType: 'json',
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+           <!-- xhrFields:{withCredentials:true},-->
+            cashe:false,
+            async: true,    //默认是true：异步，false：同步。
+            success: function (data) {
+                if (data['success']==true){
+                            alert(data['nickname']+'登陆成功')
+                            window.location.href='/iphone2'
+                        } else {
+                             alert('用户名或密码有误！请重新输入')
+                        }
+            },
+            error: function (data) {
+                layer.msg('请求异常');
+            },
+        });
+}
+        </script>
+        <script>
+            $(function () {
+                $('#login_remake').click(function () {
+                    $('#login_blah').attr('src','../static/image/人脸识别提示.png')
+                })
+            })
+        </script>
+    </body>
+</html>

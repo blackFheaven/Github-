@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="../static/css/jquery.mloading.css">
+    <title>修改资料</title>
+    <!--[if lte IE 8]>
+        <script type="text/javascript">alert("您的浏览器版本较低，请升级版本以获得更好的体验！");</script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/foundation/5.5.3/css/foundation.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/folding_navigation.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="../static/css/iphone2.css">
+
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+        body{}img{border: none;}
+        .mui-input-group .mui-input-row.bd0:after{height: 0;}
+        .mui-input-group .mui-input-row.bd0{border-bottom: #c8c7cc 1px solid;}
+        .mui-card{position: relative;border:#c8c7cc 1px dotted;padding: 8px;-webkit-box-shadow:none;box-shadow: none;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;margin-bottom: 30px;}
+        /*图片背景*/
+        .mui-card-header:after{height: 0;}
+        .camerabox{width: 100%;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+        .beforecamera{padding: 0;margin:0;margin-top: 20px;border:none;}
+        .beforecamera .mui-card-header{width:100%;text-align: center;}
+        .beforecamera .mui-card-header>div{width: 100%;height:100%;font-weight: normal;color: #09f;}
+        /*提交按钮*/
+        .mui-btn{height: 50px;box-sizing: border-box;line-height: 50px;padding: 0;font-size: 16px;}
+        /*图形按钮*/
+        .fileInpBtn{
+            position:absolute;left:2px;top: 0;
+            width:100%;height:100%;
+            cursor:pointer;
+            filter:alpha(opacity:0);opacity:0;
+            border-color: orange;
+        }
+        /*.camerabox{
+            position:absolute;left:2;top: 0;
+            border-color: red;
+        }*/
+    </style>
+</head>
+
+<body>
+
+
+
+{#    <header class="mui-bar mui-bar-nav">#}
+{#        <div style="">#}
+{#            <a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:history.go(-1);"></a>#}
+{#            <div style="float: right;display: inline-block">#}
+{#                <span style="font: 12px">#}
+{#                    {% if nickname %}#}
+{#                        {{ nickname }}在线#}
+{#                    {% else %}#}
+{#                        未登录！#}
+{#                    {% endif %}#}
+{#                </span>#}
+{#            </div>#}
+{#            <h1 class="mui-title" style="display: inline-block"><p>人脸检测</p></h1>#}
+{#        </div>#}
+{#    </header>#}
+    <div class="off-canvas-wrap" data-offcanvas>
+  <div class="inner-wrap" style="!important;height: 100%;">
+    <nav class="tab-bar" id="fcl_iphone2_nav">
+      <section class="left-small">
+        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+      </section>
+
+      <section class="middle tab-bar-section">
+<span style="font: 12px;float: right"><a href="/login">退出</a></span>
+          <span style="font: 12px;float: right">
+                    {% if nickname %}
+                        {{ nickname }}在线
+                    {% else %}
+                        未登录！
+                    {% endif %}
+          </span>
+
+        <h1 class="title" id="iphone2_fcl_head_middle">人脸检测</h1>
+
+
+      </section>
+    </nav>
+
+    <aside class="left-off-canvas-menu">
+        <div style="height: 2.8125rem;line-height: 2.8125rem;text-align: center;color: #FFFFFF">
+            <span id="fcl_iphone2_head">
+                账号:{{ user }}
+            </span>
+        </div>
+      <ul id="accordion" class="accordion">
+
+        <li>
+           <div class="link"><i class="fa fa-paint-brush"></i>人脸功能<i class="fa fa-chevron-down"></i></div>
+			<ul class="submenu">
+				<li><a href="#">人脸检测</a></li>
+                <li id="fcl_li"><a href="#">人脸功能使用显示</a></li>
+
+			</ul>
+        </li>
+        <li>
+           <div class="link"><i class="fa fa-clock-o"></i>设置<i class="fa fa-chevron-down"></i></div>
+			<ul class="submenu">
+				<li><a href="#">人脸注册补录</a></li>
+			</ul>
+        </li>
+
+      </ul>
+    </aside>
+
+    <!--<section class="main-section">-->
+      <!--<h3>菜鸟教程</h3>-->
+      <!--<p>学的不仅是技术，更是梦想！！！</p>-->
+    <!--</section>-->
+    <div class="mui-content fcl_switch_page fcl-black selected">
+        <div class="mui-input-group">
+
+
+            <div class="mui-card beforecamera">
+                    <div style="margin: 5px;display: inline-block"><span>温馨提示：</span><br><span>点击下面图标录入本人头像，然后点击上传！</span></div>
+
+                <div class="mui-card-header">
+                    <p style="display: inline-block">点击即可拍摄</p>
+                </div>
+            </div>
+            <!--身份证主页-->
+            <div class="mui-card" >
+                <div class="mui-card-content" >
+
+{#                    <div style="display: inline-block;  position:absolute;z-index: 100;height: 30px;" >#}
+{#                        <div style="display: inline-block">你好！！！！！！！！！！！！！！！</div>#}
+{#                    </div>#}
+
+                    <form  name="fcl_form" id="fcl_form" >
+                        <img class="camerabox blah" id="blah" name="img" src="./static/image/人脸识别提示.png" />
+                        <input class="fileInpBtn imgInp" name="file" id="imgInp" type="file"   accept="image/*"  multiple >
+                    </form>
+
+
+                    <!--<input type="file"  accept="image/*" capture="camera" size="30">-->
+
+
+                </div>
+            </div>
+
+
+
+            <div class="mui-button-row" style="height: auto;padding: 20px;">
+                <!--提交按钮-->
+                <button type="submit" class="mui-btn mui-btn-block mui-btn-primary" onclick="upload_img()">确认无误，立即检测</button>&nbsp;&nbsp;
+                <a href="/iphone2"><button type="button" class="mui-btn mui-btn-block mui-btn-danger" >重拍</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="mui-content fcl_switch_page fcl-black" >
+        <div class="mui-input-group" >
+            <!--todo:html正在修改-->
+            <div id="fcl_iphone2_div" style="height: 100px">
+                <div id="fcl_iphone2_echarts" style="height: 100%">
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-content fcl_switch_page fcl-black">
+        <div class="mui-input-group">
+
+
+            <div class="mui-card beforecamera">
+                    <div style="margin: 5px;display: inline-block"><span>温馨提示：</span><br><span>本文是人脸注册补录的页面</span></div>
+
+                <div class="mui-card-header">
+                    <p style="display: inline-block">点击即可拍摄</p>
+                </div>
+            </div>
+            <!--身份证主页-->
+            <div class="mui-card" >
+                <div class="mui-card-content" >
+
+
+                    <form  name="fcl_form" id="fcl_form2" >
+                        <img class="camerabox blah" id="blah2" name="img" src="./static/image/人脸识别提示.png" />
+                        <input class="fileInpBtn imgInp" name="file" id="imgInp2" type="file"   accept="image/*"  multiple >
+                    </form>
+
+
+                    <!--<input type="file"  accept="image/*" capture="camera" size="30">-->
+
+
+                </div>
+            </div>
+
+
+
+            <div class="mui-button-row" style="height: auto;padding: 20px;">
+                <!--提交按钮-->
+                <button type="submit" class="mui-btn mui-btn-block mui-btn-primary" onclick="face_recollection()">确认无误，立即注册</button>&nbsp;&nbsp;
+                <a href="#"><button type="button" class="mui-btn mui-btn-block mui-btn-danger fcl_remake" >重拍</button></a>
+            </div>
+        </div>
+    </div>
+
+    <a class="exit-off-canvas"></a>
+
+  </div>
+</div>
+
+
+
+    <!--<script src="statics/js/udy_js/mui.min.js"></script>-->
+    <script src="../static/js/jquery-3.3.1.js"></script>
+{#      <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>#}
+<script src="../static/js/bootstrap.js"></script>
+    <script src="../static/js/jquery.mloading.js"></script>
+    <script src="https://cdn.staticfile.org/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="https://cdn.staticfile.org/foundation/5.5.3/js/vendor/modernizr.js"></script>
+<script src="../static/js/folding_navigation.js"></script>
+<script>
+$(document).ready(function() {
+    $(document).foundation();
+})
+
+$(function () {
+$('.fcl_remake').click(function () {
+    $('.blah').attr('src','../static/image/人脸识别提示.png')
+})
+})
+
+ var fcc_Chaoshi_order_as = document.querySelectorAll('.submenu li');
+
+    for(var i=0;i <fcc_Chaoshi_order_as.length;i++){
+        (function (num) {
+            fcc_Chaoshi_order_as[num].onclick = function () {
+                for(var i=0;i <fcc_Chaoshi_order_as.length;i++){
+                  fcc_Chaoshi_order_as[i].className ="";}
+                fcc_Chaoshi_order_changeTab(num);
+                fcc_Chaoshi_order_as[num].className="lists";
+
+                $('#iphone2_fcl_head_middle').text($('.lists >a').text());
+            }
+        })(i)
+    }
+    var fcc_Chaoshi_order_tabs = document.querySelectorAll('.fcl_switch_page');
+    console.log(fcc_Chaoshi_order_tabs);
+    function fcc_Chaoshi_order_changeTab(index) {
+        for (var i=0;i<fcc_Chaoshi_order_tabs.length;i++) {
+
+        //1.还原选中状态
+
+            fcc_Chaoshi_order_tabs[i].classList.remove('selected');
+            fcc_Chaoshi_order_as[i].classList.remove('active');
+        }
+    //    2.选中
+        console.log(1);
+        fcc_Chaoshi_order_tabs[index].classList.add('selected');
+        fcc_Chaoshi_order_as[index].classList.add('active');
+
+    }
+
+
+
+</script>
+    <script>
+
+        /*function showPicture(imgFile){
+            alert("url地址："+window.URL.createObjectURL(imgFile.files[0]));
+            //获取上传文件的路径，并赋给img标签
+            document.getElementById("newImage").src = window.URL.createObjectURL(imgFile.files[0]);}
+        */
+        function readURL(input) {
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
+       reader.onload = function (e) {
+    console.log('e: ',e)
+      console.log('target: ',e.target)
+                 $('.blah').attr('src', e.target.result);
+       }
+       reader.readAsDataURL(input.files[0]);
+{#console.log('eqwe:',$("#fcl_form")[0])#}
+   }
+}
+$(".imgInp").change(function(){
+   readURL(this);
+});
+function face_recollection() {
+    var formData = new FormData($('#fcl_form2')[0]);
+   formData.append('user',$('fcl_iphone2_head').html());
+    //console.log('asdsadsa',);
+    //console.log('foemdata: ',formData)
+//ajax请求
+$.ajax({url:"/face_collection",
+            type: "POST",
+            data: formData,
+            dataType: 'json',
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+           <!-- xhrFields:{withCredentials:true},-->
+            cashe:false,
+            async: true,    //默认是true：异步，false：同步。
+            success: function (data) {
+                if (data['success']==true){
+                            alert('照片补录成功！')
+                        } else {
+                             alert('照片补录失败！'+data['error_msg'])
+                        }
+
+            },
+            error: function (data) {
+                layer.msg('请求异常');
+            },
+        });
+}
+
+function upload_img() {
+    var formData = new FormData($('#fcl_form')[0]);
+   //formData.append('photo', 'dasd');
+    //console.log('asdsadsa',);
+    //console.log('foemdata: ',formData)
+//ajax请求
+$.ajax({url:"/detection",
+            type: "POST",
+            data: formData,
+            dataType: 'json',
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+           <!-- xhrFields:{withCredentials:true},-->
+            cashe:false,
+            async: true,    //默认是true：异步，false：同步。
+            success: function (data) {
+                alert('成功');
+                console.log(data);
+                let string_analysis_data=background_data_analysis(data['result'])
+                display_mask_layer(string_analysis_data,data['result']['face_1'])
+            },
+            error: function (data) {
+                layer.msg('请求异常');
+            },
+        });
+}
+//将基本数据从英文改成汉文
+function base_data_english_change_chinese(data_dict) {
+    var base_data_div = $('<div id="base_data_div"><span style="color:aqua">基本属性：</span><br></div>');
+    for (var key in data_dict){
+        var value_data ='';
+        if (key != 'face_probability' && key !='beauty'){
+            if(key == 'expression'){
+            if (data_dict['expression'] =='none'){
+                 value_data = '无表情';
+            }else if (data_dict['expression'] =='smile'){
+                 value_data = '微笑';
+            }  else if (data_dict['expression'] =='laugh'){
+                value_data = '大笑';
+            }
+            key ='表情';
+        }else if (key == 'face_shape'){
+            if (data_dict['face_shape'] =='square'){
+                 value_data = '正方形';
+            }else if (data_dict['face_shape'] =='triangle'){
+                 value_data = '三角形';
+            }  else if (data_dict['face_shape'] =='oval'){
+                value_data = '椭圆';
+            }else if (data_dict['face_shape'] =='heart'){
+                 value_data = '心形';
+            }  else if (data_dict['face_shape'] =='round'){
+                value_data = '圆形';
+        }
+        key ='脸型';
+    }else if (key =='glasses'){
+            if (data_dict['glasses'] =='none'){
+                 value_data = '未戴眼镜';
+            }else if (data_dict['glasses'] =='common'){
+                 value_data = '普通眼镜';
+            }  else if (data_dict['glasses'] =='sun'){
+                value_data = '太阳镜';
+        }
+        key ='有无眼镜'
+    }else if (key =='race'){
+            if (data_dict['race'] =='yellow'){
+                 value_data = '黄种人';
+            }else if (data_dict['race'] =='white'){
+                 value_data = '白种人';
+            }  else if (data_dict['race'] =='arabs'){
+                value_data = '阿拉博人';
+            } else if (data_dict['race'] =='black'){
+                value_data = '黑种人';
+            }
+            key ='人种';
+        }else if(key =='age'){
+            key ='年龄';
+            value_data =data_dict['age'];
+        }else if(key =='gender'){
+            if (data_dict['gender'] =='male'){
+                 value_data = '男士';
+            }else if (data_dict['gender'] =='female'){
+                 value_data = '女士';
+            }
+            key = '性别';
+        }else if (key == 'beauty'){
+
+        }
+        var base_data_span = $('<span><span>').html(key+':'+value_data);
+        base_data_div.append(base_data_span);
+        base_data_div.append($('<br>'))
+        }
+    }
+    $("#fcl_mloading_bar").append(base_data_div);
+}
+
+function display_mask_layer(string_analysis_data,data_dict) {
+    $("body").mLoading();
+    //setTimeout(3000)
+    $(".mloading-icon").attr('src','#');
+    $("#fcl_zzc_span").html(string_analysis_data)
+    //$("#fcl_mloading_bar").append($('<span></span>').html())
+    base_data_english_change_chinese(data_dict)
+}
+
+/*
+//下面的函数将别处理掉
+function adsa () {
+    $(".mloading-icon").attr('src','#');
+    $("#fcl_zzc_span").html()
+}
+*/
+
+function background_data_analysis(background_data) {
+    for(var key in background_data){
+        let item_data = background_data[key];
+        var string_analysis_data=face_detection_data_analysis(item_data);
+
+
+        /*
+        let expression = item_data['expression'] ;//none 无表情 smile 微笑 laugh 大笑
+        let face_shape = item_data['face_shape'];//square: 正方形 triangle:三角形 oval: 椭圆 heart: 心形 round: 圆形
+        let glasses = item_data['glasses'];//none:无眼镜，common:普通眼镜，sun:墨镜
+        let race = item_data['race'];//yellow: 黄种人 white: 白种人 black:黑种人 arabs: 阿拉伯人
+        let age = item_data['age'];
+        let gender = item_data['gender'];//male:男性 female:女性
+        let beauty = item_data['beauty'];//评分
+        */
+    }
+    return string_analysis_data
+}
+//人脸检测数据分析
+//功能：对数据进行组合
+function face_detection_data_analysis(data_dict){
+    let age = data_dict['age'];
+    let gender = data_dict['gender'];
+    let list_data =['expression','face_shape','glasses','race','beauty'];
+    let dict_male_data ={
+        '16-32':{
+            'expression':{
+                'none':['不苟言笑的小哥哥属实有点酷酷的'],
+                'smile':['小艾要被小哥哥的微笑给迷倒了！','小哥哥的微笑好迷人呀，小艾想，小哥哥一定是一位温柔的人！'],
+                'laugh':['小哥哥看到啥了，这么好笑啊！','小哥哥能告诉小艾你在笑啥嘛？']
+            },
+            'face_shape':{
+                'square':['小哥哥方正的脸型中，透漏出压抑不住的刚正之气！','小艾对于面相也有所研究哦，脸型方正的男人会有贵人相助，往往会事半功倍呢！'],
+                'triangle':['小艾知道些面相知识呢，从小哥哥的正三角形的脸型中，可以看出小哥哥属于头脑发达的那种人，很聪明'],
+                'oval':['小哥哥的脸型中透漏着青春年少，而且很帅啊！'],
+                'heart':['小哥哥有着明星般的心型脸，小艾好羡慕啊！'],
+                'round':['小艾东鞋面小知识呢，小哥哥的圆脸看得出小哥哥为人较细心，善解人意，能关怀别人！']
+            },
+            'glasses':{
+                'common':['眼睛是心灵的窗户，小哥哥给你的窗户安装的玻璃还挺还看的！','小哥哥戴眼镜的样子好帅啊！'],
+                'sun':['小哥哥戴墨镜的样子好帅啊！','真是为酷酷的小哥哥！']
+            },
+            'race':{
+                'yellow':['看容貌，小哥哥一定是位中国人！']
+            },
+            'beauty':['小哥哥的颜值好高啊！','小哥哥难道是明星吗？怎么这么好看！']
+        },
+        '32-56':{
+            'expression':{
+                'none':['叔叔的表情酷酷的！'],
+                'smile':['想不到您的微笑竟然把小艾给迷倒了！','您的微笑好迷人呀，小艾想，叔叔一定是一为丈夫，好爸爸！'],
+                'laugh':['叔叔看到啥了，这么好笑啊！','叔叔能告诉小艾你在笑啥嘛？']
+            },
+            'face_shape':{
+                'square':['叔叔方正的脸型中，有着岁月的沉淀和您的稳重！','小艾对于面相也有所研究哦，从叔叔的脸型中可以看出叔叔将来会有贵人相助哦！'],
+                'triangle':['小艾知道些面相知识呢，从叔叔的脸型中，可以看出您属于头脑发达的那种人，很聪明'],
+                'oval':['叔叔的脸型中透漏着青春年少，而且还很帅呢，完全不输当代的小鲜肉！'],
+                'heart':['小艾知道些面相知识呢，从您的脸型中可以看出您属于那种善良的人！'],
+                'round':['小艾东鞋面小知识呢，叔叔的圆脸看得出叔叔为人较细心，善解人意，能关怀别人！']
+            },
+            'glasses':{
+                'common':['您带着眼睛斯斯文文的，小艾想，您肯定知道很多东西！'],
+                'sun':['您戴墨镜的样子好帅啊，完全不熟当代的小鲜肉呢！','真是位酷酷的叔叔！']
+            },
+            'race':{
+                'yellow':['看容貌，叔叔一定是位中国人，跟小艾一样呢！']
+            },
+            'beauty':['叔叔的颜值好高啊！','叔叔难道是明星吗？怎么这么好看！']
+        },
+    };
+    let dict_female_data ={};
+    var selected_data = randomly_selected(list_data);
+
+    //男性
+    if (gender =='male'){
+        if (16<parseInt(age)<=32){
+            if(16<parseInt(age)<=24){
+               var string_people ='小哥哥处于人身中的最后的发育阶段，小哥哥一定要爱护自己的身体，不要熬夜奥！'
+
+            }else if (24<parseInt(age)<=32){
+                 var string_people ='小哥哥处于人身中的重要奋斗阶段，人们往往都是在这个阶段成功的哦，不过小哥哥在奋斗的过程中也不要损耗身体哦！'
+            }
+           string_people=string_people+randomly_selected(dict_male_data['16-32'][selected_data][data_dict[selected_data]]);
+        }
+        else if(32<parseInt(age)<=56){
+            if(32<parseInt(age)<=40){
+               var string_people ='您现在已经是一个30而立的男人了，下有儿女，上有老母，生活虽然艰辛，但千万不要丧失掉对生活的向往，小艾在这给您加油！';
+            }else if (40<parseInt(age)<=48){
+                 var string_people ='叔叔您现在已经到了一个40不惑的年龄，也有了自己的事业，处于人生中的壮年时期！不过小艾要提醒您要注意保养自己的身体了！';
+            }else if (48<parseInt(age)<=56){
+                 var string_people ='您现在处于一个知天命的阶段，明白了自己的人生轨迹，但是要主要养生喽！';
+            }
+           string_people=string_people+randomly_selected(dict_male_data['32-56'][selected_data][data_dict[selected_data]]);
+        }
+
+    }
+    //女性
+    else {
+
+    }
+return string_people
+}
+//随机挑选数组中的数
+function randomly_selected(array) {
+    let subscript=Math.round(Math.random()*(array.length-1));
+    let string1=array[subscript];
+    return string1;
+}
+    </script>
+{#//下面是echarts的js#}
+        <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+       <script type="text/javascript" src="../static/js/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="../static/js/ecStat.min.js"></script>
+       <script type="text/javascript" src="../static/js/dataTool.min.js"></script>
+       <script type="text/javascript" src="../static/js/china.js"></script>
+       <script type="text/javascript" src="../static/js/world.js"></script>
+
+       <script type="text/javascript" src="../static/js/bmap.min.js"></script>
+       <script type="text/javascript" src="../static/js/simplex.js"></script>
+
+        <script type="text/javascript" src="../static/js/jquery.ba-resize.js"></script>
+       <script type="text/javascript">
+           var h=window.innerHeight;
+    var div1=$('#fcl_iphone2_nav').height();
+    $('#fcl_iphone2_div').height(h-div1);
+           $('#fcl_li').click(function () {
+
+               $.ajax({
+              url:'/face_show_usage_details',
+              type:'GET',
+              async:true,
+              timeout:5000,
+                //返回json数据
+                dataType:'json',
+                success:function (data,textStatus,jqXHR) {
+                    iphone2_show_echarts(data)
+                    console.log(typeof data['face_detection'])
+                      },error:function () {
+                         alert('错误');
+                         console.log('错误')
+                     }
+                    });
+
+
+
+function iphone2_show_echarts(data) {
+option = null;
+
+option = {
+    title : {
+        text: '人脸识别功能调用详情',
+        subtext: '',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['人脸检测','人脸搜索','人脸注册']
+    },
+    series : [
+        {
+            name: '访问来源',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+                {value:data['face_detection'], name:'人脸检测'},
+                {value:data['face_search'], name:'人脸搜索'},
+                {value:data['face_register'], name:'人脸注册'}
+
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+var dom = document.getElementById("fcl_iphone2_echarts");
+var myChart = echarts.init(dom);
+var app = {};
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+  var h=window.innerHeight;
+    var div1=$('#fcl_iphone2_nav').height();
+    $('#fcl_iphone2_div').height(h-div1);
+    $('#fcl_iphone2_div').resize(function () {
+    myChart.resize()
+})
+               }
+
+//todo:正在更改js
+
+$(window).resize(function () {
+    var h=window.innerHeight;
+    var div1=$('#fcl_iphone2_nav').height();
+    $('#fcl_iphone2_div').height(h-div1);
+    $('#fcl_iphone2_div').resize(function () {
+    myChart.resize()
+})
+})
+
+
+
+
+           })
+
+       </script>
+
+</body>
+</html>
